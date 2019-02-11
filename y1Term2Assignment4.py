@@ -30,7 +30,8 @@ class pendulum:
 
     def __init__(self, pendulum_length, mass):
         # TODO: Assignment Task 1: write method body
-        pass
+        self._length = pendulum_length
+        self._mass = mass
         # End of Task 1; proceed to task 2.
 
 
@@ -56,7 +57,11 @@ class pendulum:
             the derivatives of y
         """
         # TODO: Assignment Task 2: write method body
-        pass
+        # theta'' = - g/l sin(theta): angular acceleration
+        # omega = d/dt = theta': angular velocity
+        theta, omega = y
+        
+        return [omega, (-self._g/self._length)*np.sin(theta)]        
         # End of Task 2; proceed to task 3.
 
 
@@ -83,7 +88,12 @@ class pendulum:
             the period
         '''
         # TODO: Assignment Task 3: write method body
-        pass
+        y0 = [maximum_amplitude, 0]
+        t = np.linspace(0,100,1000)
+        theta = integrate.odeint(self.dydt, y0, t)[:,0]
+        #print(theta)
+        t_from_theta = interpolate.interp1d(theta[1:], t[1:], fill_value="extrapolate")
+        return t_from_theta
         # End of Task 3; no further tasks.
 
 if __name__ == '__main__':
