@@ -88,12 +88,16 @@ class pendulum:
             the period
         '''
         # TODO: Assignment Task 3: write method body
+        analytical = 2*np.pi*np.sqrt(self._length/self._g)
+        if maximum_amplitude == 0:
+            return analytical
         y0 = [maximum_amplitude, 0]
-        t = np.linspace(0,100,1000)
+        t = np.linspace(0,analytical*0.375,1000)
         theta = integrate.odeint(self.dydt, y0, t)[:,0]
         #print(theta)
-        t_from_theta = interpolate.interp1d(theta[1:], t[1:], fill_value="extrapolate")
-        return t_from_theta
+        t_from_theta = interpolate.interp1d(theta, t)
+        p = t_from_theta(0) * 4
+        return p
         # End of Task 3; no further tasks.
 
 if __name__ == '__main__':
