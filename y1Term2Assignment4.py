@@ -32,6 +32,7 @@ class pendulum:
         # TODO: Assignment Task 1: write method body
         self._length = pendulum_length
         self._mass = mass
+        self._g = 0 # Placeholder value for pylint, should be changed with set_g
         # End of Task 1; proceed to task 2.
 
 
@@ -60,8 +61,8 @@ class pendulum:
         # theta'' = - g/l sin(theta): angular acceleration
         # omega = d/dt = theta': angular velocity
         theta, omega = y
-        
-        return [omega, (-self._g/self._length)*np.sin(theta)]        
+
+        return [omega, (-self._g/self._length)*np.sin(theta)]
         # End of Task 2; proceed to task 3.
 
 
@@ -92,8 +93,8 @@ class pendulum:
         if maximum_amplitude == 0:
             return analytical
         y0 = [maximum_amplitude, 0]
-        t = np.linspace(0,analytical*0.375,1000)
-        theta = integrate.odeint(self.dydt, y0, t)[:,0]
+        t = np.linspace(0, analytical*0.375, 1000)
+        theta = integrate.odeint(self.dydt, y0, t)[:, 0]
         #print(theta)
         t_from_theta = interpolate.interp1d(theta, t)
         p = t_from_theta(0) * 4
@@ -118,4 +119,3 @@ if __name__ == '__main__':
     ax.set_ylabel('period/s')
     ax.legend(loc='upper left')
     plt.show()
-    
